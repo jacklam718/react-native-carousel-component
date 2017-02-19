@@ -7,3 +7,6 @@ React Native Carousel Component for iOS & Android.
 ```bash
 yarn add react-native-carousel-component
 ```
+
+## Docs
+[Docs](https://github.com/jacklam718/react-native-carousel-component/tree/master/docs/README.md)
