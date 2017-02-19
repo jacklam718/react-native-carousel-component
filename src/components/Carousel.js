@@ -1,7 +1,7 @@
 // @flow
 
-import React, { Component, ReactElement } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { Component, type ReactElement } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 import ViewPager from './ViewPager';
 import CarouselHeader from './CarouselHeader';
@@ -99,18 +99,28 @@ class CarouselComponent extends Component {
   }
 
   render() {
+    const {
+      cards,
+      selectedIndex,
+      onSelectedIndexChange,
+      style,
+      viewPagerStyle,
+    } = this.props;
+
+    const carouselHeader = this.renderHeader();
+
     return (
-      <View style={[styles.container, this.props.style]}>
-        {this.renderHeader()}
+      <View style={[styles.container, style]}>
+        {carouselHeader}
 
         <ViewPager
-          style={[styles.viewPager, this.props.viewPagerStyle]}
-          count={this.props.cards.length}
-          selectedIndex={this.props.selectedIndex}
-          onSelectedIndexChange={this.props.onSelectedIndexChange}
+          style={[styles.viewPager, viewPagerStyle]}
+          count={cards.length}
+          selectedIndex={selectedIndex}
+          onSelectedIndexChange={onSelectedIndexChange}
           bounces
         >
-          {this.props.cards}
+          {cards}
         </ViewPager>
       </View>
     );
