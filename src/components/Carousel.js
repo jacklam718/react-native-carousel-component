@@ -5,6 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import ViewPager from './ViewPager';
 import CarouselHeader from './CarouselHeader';
+import PageControl from './PageControl';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +38,7 @@ type Props = {
   subTitleStyle?: any;
   leftItem?: Object;
   rightItem?: Object;
+  showPageControl: boolean;
 }
 
 const defaultProps = {
@@ -53,13 +55,31 @@ const defaultProps = {
   viewPagerStyle: null,
   selectedIndex: 0,
   onSelectedIndexChange: () => {},
+  showPageControl: true,
   cards: [],
 };
 
 class CarouselComponent extends Component {
+  static defaultProps = defaultProps
+
   props: Props
 
-  static defaultProps = defaultProps
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      selectedIndex: props.selectedIndex,
+    };
+
+    (this: any).selectedIndexChange = this.selectedIndexChange.bind(this);
+  }
+
+  selectedIndexChange(index: number): void {
+    const { onSelectedIndexChange } = this.props;
+    // callback
+    onSelectedIndexChange(index);
+    this.setState({ selectedIndex: index });
+  }
 
   renderHeader() {
     if (this.props.header) {
@@ -75,7 +95,18 @@ class CarouselComponent extends Component {
       subTitleStyle,
       headerContentStyle,
       titleContentStyle,
+      showPageControl,
+      cards,
     } = this.props;
+
+    const { selectedIndex } = this.state;
+
+    const pageControl = showPageControl ? (
+      <PageControl
+        count={cards.length}
+        selectedIndex={selectedIndex}
+      />
+  ) : null;
 
     return (
       <CarouselHeader
@@ -93,6 +124,7 @@ class CarouselComponent extends Component {
               {subTitle}
             </Text>
           </Text>
+          {pageControl}
         </View>
       </CarouselHeader>
     );
@@ -101,13 +133,14 @@ class CarouselComponent extends Component {
   render() {
     const {
       cards,
-      selectedIndex,
-      onSelectedIndexChange,
       style,
       viewPagerStyle,
     } = this.props;
 
+    const { selectedIndex } = this.state;
+
     const carouselHeader = this.renderHeader();
+    const onSelectedIndexChange = this.selectedIndexChange;
 
     return (
       <View style={[styles.container, style]}>
