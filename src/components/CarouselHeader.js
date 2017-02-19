@@ -97,6 +97,12 @@ class HeaderAndroid extends Component {
 
   props: Props;
 
+  constructor(props: Props) {
+    super(props);
+
+    (this: any).handleActionSelected = this.handleActionSelected.bind(this);
+  }
+
   handleActionSelected(position: number) {
     const { rightItem, extraItems } = this.props;
 
@@ -158,7 +164,7 @@ class HeaderAndroid extends Component {
           titleColor={textColor}
           subtitleColor={textColor}
           actions={actions}
-          onActionSelected={this.handleActionSelected.bind(this)}
+          onActionSelected={this.handleActionSelected}
           style={styles.toolbar}
         >
           {content}
