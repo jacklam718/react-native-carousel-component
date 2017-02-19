@@ -70,10 +70,10 @@ class ViewPager extends Component {
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.selectedIndex !== this.state.selectedIndex) {
       if (Platform.OS === 'ios') {
-        this.scrollView.scrollTo({
-          x: nextProps.selectedIndex * this.state.width,
-          animated: true,
-        });
+        // this.scrollView.scrollTo({
+        //   x: nextProps.selectedIndex * this.state.width,
+        //   animated: true,
+        // });
         this.setState({ scrollingTo: nextProps.selectedIndex });
       } else {
         this.scrollView.setPage(nextProps.selectedIndex);

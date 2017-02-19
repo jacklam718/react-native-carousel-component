@@ -74,6 +74,12 @@ class CarouselComponent extends Component {
     (this: any).selectedIndexChange = this.selectedIndexChange.bind(this);
   }
 
+  componentWillReceiveProps(nexProps) {
+    if (this.props.selectedIndex !== nexProps.selectedIndex) {
+      this.setState({ selectedIndex: nexProps.selectedIndex });
+    }
+  }
+
   selectedIndexChange(index: number): void {
     const { onSelectedIndexChange } = this.props;
     // callback
@@ -99,14 +105,12 @@ class CarouselComponent extends Component {
       cards,
     } = this.props;
 
-    const { selectedIndex } = this.state;
-
     const pageControl = showPageControl ? (
       <PageControl
         count={cards.length}
-        selectedIndex={selectedIndex}
+        selectedIndex={this.state.selectedIndex}
       />
-  ) : null;
+    ) : null;
 
     return (
       <CarouselHeader
@@ -137,20 +141,15 @@ class CarouselComponent extends Component {
       viewPagerStyle,
     } = this.props;
 
-    const { selectedIndex } = this.state;
-
-    const carouselHeader = this.renderHeader();
-    const onSelectedIndexChange = this.selectedIndexChange;
-
     return (
       <View style={[styles.container, style]}>
-        {carouselHeader}
+        {this.renderHeader()}
 
         <ViewPager
           style={[styles.viewPager, viewPagerStyle]}
           count={cards.length}
-          selectedIndex={selectedIndex}
-          onSelectedIndexChange={onSelectedIndexChange}
+          selectedIndex={this.state.selectedIndex}
+          onSelectedIndexChange={this.selectedIndexChange}
           bounces
         >
           {cards}
