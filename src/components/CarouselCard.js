@@ -95,6 +95,7 @@ class CarouselCard extends Component {
 
   render() {
     const {
+      style,
       title,
       titleStyle,
       description,
@@ -143,7 +144,7 @@ class CarouselCard extends Component {
     ) : null;
 
     return (
-      <View style={[styles.container, this.props.style]}>
+      <View style={[styles.container, style]}>
         <ScrollView
           contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
           onScroll={this.onScroll}

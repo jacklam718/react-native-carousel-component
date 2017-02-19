@@ -98,9 +98,11 @@ class HeaderAndroid extends Component {
   props: Props;
 
   handleActionSelected(position: number) {
-    let items = this.props.extraItems || [];
-    if (this.props.rightItem) {
-      items = [this.props.rightItem, ...items];
+    const { rightItem, extraItems } = this.props;
+
+    let items = extraItems || [];
+    if (rightItem) {
+      items = [rightItem, ...items];
     }
     const item = items[position];
     if (item && item.onPress) {
@@ -109,7 +111,15 @@ class HeaderAndroid extends Component {
   }
 
   render() {
-    const { leftItem, rightItem, extraItems } = this.props;
+    const {
+      style,
+      leftItem,
+      rightItem,
+      extraItems,
+      foreground,
+      children,
+    } = this.props;
+
     let actions = [];
     if (rightItem) {
       const { title, icon, layout } = rightItem;
@@ -126,21 +136,21 @@ class HeaderAndroid extends Component {
       })));
     }
 
-    const textColor = this.props.foreground === 'dark'
+    const textColor = foreground === 'dark'
       ? '#032250'
       : 'white';
 
     let content;
-    if (React.Children.count(this.props.children) > 0) {
+    if (React.Children.count(children) > 0) {
       content = (
         <View collapsable={false} style={{ flex: 1 }}>
-          {this.props.children}
+          {children}
         </View>
       );
     }
 
     return (
-      <View style={[styles.toolbarContainer, this.props.style]}>
+      <View style={[styles.toolbarContainer, style]}>
         <ToolbarAndroid
           navIcon={leftItem && leftItem.icon}
           onIconClicked={leftItem && leftItem.onPress}
