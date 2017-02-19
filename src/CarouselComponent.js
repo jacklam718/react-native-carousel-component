@@ -16,12 +16,14 @@ type Props = {
   onShow?: () => void;
   onDismiss?: () => void;
   show?: boolean;
+  carouselStyle?: any;
   children: any;
 }
 
 const defaultProps = {
   onShow: () => {},
   onDismiss: () => {},
+  carouselStyle: null,
   show: false,
 };
 
@@ -60,7 +62,13 @@ class CarouselComponent extends Component {
 
   renderScene(route, navigator) {
     if (route.show) {
-      return <Carousel {...this.props} navigator={navigator} />;
+      return (
+        <Carousel
+          {...this.props}
+          style={this.props.carouselStyle}
+          navigator={navigator}
+        />
+      );
     }
     return this.props.children;
   }
