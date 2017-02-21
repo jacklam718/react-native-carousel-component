@@ -1,9 +1,12 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Navigator, StyleSheet, BackAndroid, Platform } from 'react-native';
+import { View, Navigator, StyleSheet, BackAndroid, Platform, Dimensions } from 'react-native';
+import AnimatedOverlay from 'react-native-animated-overlay';
 
 import Carousel from './components/Carousel';
+
+const { width, height } = Dimensions.get('window');
 
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
 
@@ -12,6 +15,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
+  container: {
+    flex: 1,
+    position: 'absolute',
+    width,
+    height,
+  },
+  show: {
+    flex: 1,
+    position: 'absolute',
+    width,
+    height,
+  },
+  hidden: {
+    top: -10000,
+    left: 0,
+    height: 0,
+    width: 0,
+  },
 });
 
 type Props = {
@@ -19,7 +40,6 @@ type Props = {
   onDismiss?: () => void;
   dismissOnHardwareBackPress?: boolean;
   show?: boolean;
-  navigatorStyle?: any;
   carouselStyle?: any;
   children: any;
 }
@@ -28,7 +48,6 @@ const defaultProps = {
   onShow: () => {},
   onDismiss: () => {},
   dismissOnHardwareBackPress: true,
-  navigatorStyle: null,
   carouselStyle: null,
   show: false,
 };
@@ -41,15 +60,21 @@ class CarouselComponent extends Component {
   constructor(props: Props) {
     super(props);
 
+    this.state = {
+      show: props.show,
+      showOverlay: false,
+    };
+
     (this: any).renderScene = this.renderScene.bind(this);
     (this: any).show = this.show.bind(this);
     (this: any).dismiss = this.dismiss.bind(this);
+    (this: any).willFocus = this.willFocus.bind(this);
     (this: any).didFocus = this.didFocus.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.show) {
-      this.show(this.props.onShow);
+    if (this.state.show) {
+      this.show();
     }
 
     if (Platform.OS === 'android') {
@@ -65,16 +90,6 @@ class CarouselComponent extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.show !== nextProps.show) {
-      if (nextProps.show) {
-        this.show(this.props.onShow);
-        return;
-      }
-      this.dismiss(this.props.onDismiss);
-    }
-  }
-
   componentWillUnmount() {
     if (Platform.OS === 'android') {
       BackAndroid.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
@@ -82,6 +97,7 @@ class CarouselComponent extends Component {
   }
 
   show(callback?: Function = () => {}): void {
+    this.setState({ show: true });
     this.navigator.push({ show: true });
     callback();
   }
@@ -91,13 +107,16 @@ class CarouselComponent extends Component {
     callback();
   }
 
-  didFocus({ show }) {
-    if (show === null) {
-      return;
-    }
+  willFocus({ show }) {
+    this.setState({ showOverlay: show || false });
+  }
 
+  didFocus({ show }) {
+    this.setState({ show });
     const callback = show ? this.props.onShow : this.props.onDismiss;
     callback();
+
+    this.setState({ show: show || false });
   }
 
   configureScene() {
@@ -114,21 +133,44 @@ class CarouselComponent extends Component {
         />
       );
     }
-    return this.props.children;
+
+    return (
+      <AnimatedOverlay
+        overlayShow={this.state.showOverlay}
+        opacity={1}
+        duration={200}
+        pointerEvents="auto"
+      />
+    );
   }
 
   render() {
-    const { navigatorStyle } = this.props;
+    let navigatorStyle = styles.hidden;
+    let pointerEvents = 'none';
+
+    if (this.state.show) {
+      navigatorStyle = styles.show;
+      pointerEvents = 'auto';
+    }
 
     return (
-      <Navigator
-        ref={(navigator) => { this.navigator = navigator; }}
-        initialRoute={{ show: null }}
-        configureScene={this.configureScene}
-        renderScene={this.renderScene}
-        onDidFocus={this.didFocus}
-        style={[styles.navigator, navigatorStyle]}
-      />
+      <View style={styles.container} pointerEvents={pointerEvents}>
+        <AnimatedOverlay
+          overlayShow={this.state.showOverlay}
+          opacity={1}
+          duration={500}
+          pointerEvents="auto"
+        />
+        <Navigator
+          ref={(navigator) => { this.navigator = navigator; }}
+          initialRoute={{ show: null }}
+          configureScene={this.configureScene}
+          renderScene={this.renderScene}
+          onWillFocus={this.willFocus}
+          onDidFocus={this.didFocus}
+          style={[styles.navigator, navigatorStyle]}
+        />
+      </View>
     );
   }
 }
