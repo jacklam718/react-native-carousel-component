@@ -19,6 +19,7 @@ type Props = {
   onDismiss?: () => void;
   dismissOnHardwareBackPress?: boolean;
   show?: boolean;
+  navigatorStyle?: any;
   carouselStyle?: any;
   children: any;
 }
@@ -27,6 +28,7 @@ const defaultProps = {
   onShow: () => {},
   onDismiss: () => {},
   dismissOnHardwareBackPress: true,
+  navigatorStyle: null,
   carouselStyle: null,
   show: false,
 };
@@ -46,6 +48,10 @@ class CarouselComponent extends Component {
   }
 
   componentDidMount() {
+    if (this.props.show) {
+      this.show(this.props.onShow);
+    }
+
     if (Platform.OS === 'android') {
       const { dismissOnHardwareBackPress, onDismiss } = this.props;
 
@@ -56,6 +62,16 @@ class CarouselComponent extends Component {
         }
         return true;
       });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.show !== nextProps.show) {
+      if (nextProps.show) {
+        this.show(this.props.onShow);
+        return;
+      }
+      this.dismiss(this.props.onDismiss);
     }
   }
 
@@ -76,6 +92,10 @@ class CarouselComponent extends Component {
   }
 
   didFocus({ show }) {
+    if (show === null) {
+      return;
+    }
+
     const callback = show ? this.props.onShow : this.props.onDismiss;
     callback();
   }
@@ -98,14 +118,16 @@ class CarouselComponent extends Component {
   }
 
   render() {
+    const { navigatorStyle } = this.props;
+
     return (
       <Navigator
         ref={(navigator) => { this.navigator = navigator; }}
-        initialRoute={{ show: this.props.show }}
+        initialRoute={{ show: null }}
         configureScene={this.configureScene}
         renderScene={this.renderScene}
         onDidFocus={this.didFocus}
-        style={styles.navigator}
+        style={[styles.navigator, navigatorStyle]}
       />
     );
   }
