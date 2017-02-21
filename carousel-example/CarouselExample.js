@@ -62,17 +62,7 @@ export default class CarouselExample extends Component {
 
   render() {
     return (
-      <CarouselComponent
-        ref={(carousel) => { this.carousel = carousel; }}
-        cards={this.renderCards()}
-        title="Intro React Native"
-        subTitle="What Is React Native?"
-        leftItem={{
-          title: 'CLOSE',
-          layout: 'title',
-          onPress: this.dismiss,
-        }}
-      >
+      <View style={{ flex: 1 }}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.container}>
           <Button
@@ -81,7 +71,18 @@ export default class CarouselExample extends Component {
           />
 
         </View>
-      </CarouselComponent>
+        <CarouselComponent
+          ref={(carousel) => { this.carousel = carousel; }}
+          cards={this.renderCards()}
+          title="Intro React Native"
+          subTitle="What Is React Native?"
+          leftItem={{
+            title: 'CLOSE',
+            layout: 'title',
+            onPress: this.dismiss,
+          }}
+        />
+      </View>
     );
   }
 }

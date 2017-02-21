@@ -49,10 +49,10 @@ const cards = [
 #### You can call `show` method open the carousel and call the `dismiss` to close the carousel
 ```javascript
 this.carousel.show(() => {
-  console.log('callback for show methid')
+  console.log('callback for show method')
 });
 
 this.carousel.dismiss(() => {
-    console.log('callback for dismiss methid')
+    console.log('callback for dismiss method')
 });
 ```
