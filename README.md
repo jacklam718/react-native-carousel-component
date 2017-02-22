@@ -17,6 +17,9 @@ npm install --save react-native-carousel-component
 
 ## Example
 [Example App](https://github.com/jacklam718/react-native-carousel-component/blob/master/carousel-example/CarouselExample.js)
+<br />
+[Demo App for Demonstrate How To Use `CarouselComponent` +
+`Navigator` with `Navigator.NavigationBar` ](https://github.com/jacklam718/react-native-carousel-component/blob/master/carousel-example/CarouselExample.js)
 
 ## Usage
 ```javascript
