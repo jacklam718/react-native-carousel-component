@@ -1,6 +1,6 @@
 {
   "name": "react-native-carousel-component",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "React Native Carousel Component for IOS and Android",
   "main": "index.js",
   "repository": "git@github.com:jacklam718/react-native-carousel-component.git",
