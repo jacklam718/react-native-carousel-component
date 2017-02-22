@@ -1280,6 +1280,14 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
+react-native-animated-overlay@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-animated-overlay/-/react-native-animated-overlay-0.0.5.tgz#ae861501a18c9893f9fdb9d23ce51854e9ae9999"
+
+react-native-root-siblings@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-root-siblings/-/react-native-root-siblings-1.1.2.tgz#fc1e7310f4f9f8b080331ff5d173db840d6b9e1f"
+
 react-proxy@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-1.1.8.tgz#9dbfd9d927528c3aa9f444e4558c37830ab8c26a"

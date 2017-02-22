@@ -1,5 +1,6 @@
 ## Exposed Components
 ```javascript
+CarouselManager
 CarouselComponent
 Carousel
 CarouselCard
