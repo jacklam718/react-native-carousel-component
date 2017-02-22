@@ -8,6 +8,8 @@ React Native Carousel Component for iOS & Android.
 ## Installation
 ```bash
 yarn add react-native-carousel-component
+# OR
+npm install --save react-native-carousel-component
 ```
 
 ## Docs
@@ -43,6 +45,30 @@ const cards = [
   }}
 >
   // You can put your view here
+</CarouselComponent>
+```
+
+#### Note: If you uses `Navigator` with `Navigator.NavigationBar` in your app please put Navigator into `CarouselComponent`
+
+##### For example:
+```javascript
+<CarouselComponent
+  ref={(carousel) => { this.carousel = carousel; }}
+  cards={cards}
+  title="Carousel Title"
+  subTitle="Carousel Sub Title"
+  showPageControl
+  leftItem={{
+    title: 'CLOSE',
+    layout: 'title',
+    onPress: this.dismiss,
+  }}
+>
+  <Navigator
+    ref={(navigator) => { this.navigator = navigator; }}
+    navigationBar={<Navigator.NavigationBar />}
+    style={styles.navigator}
+  />
 </CarouselComponent>
 ```
 
