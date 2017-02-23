@@ -30,7 +30,7 @@ const defaultProps = {
   dismissOnHardwareBackPress: true,
   navigatorStyle: null,
   carouselStyle: null,
-  show: false,
+  show: null,
 };
 
 class CarouselComponent extends Component {
@@ -41,6 +41,10 @@ class CarouselComponent extends Component {
   constructor(props: Props) {
     super(props);
 
+    this.state = {
+      show: null,
+    };
+
     (this: any).renderScene = this.renderScene.bind(this);
     (this: any).show = this.show.bind(this);
     (this: any).dismiss = this.dismiss.bind(this);
@@ -49,15 +53,15 @@ class CarouselComponent extends Component {
 
   componentDidMount() {
     if (this.props.show) {
-      this.show(this.props.onShow);
+      this.show();
     }
 
     if (Platform.OS === 'android') {
-      const { dismissOnHardwareBackPress, onDismiss } = this.props;
+      const { dismissOnHardwareBackPress } = this.props;
 
       BackAndroid.addEventListener(HARDWARE_BACK_PRESS_EVENT, () => {
         if (dismissOnHardwareBackPress) {
-          this.dismiss(onDismiss);
+          this.dismiss();
           return false;
         }
         return true;
@@ -68,10 +72,10 @@ class CarouselComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.show !== nextProps.show) {
       if (nextProps.show) {
-        this.show(this.props.onShow);
+        this.show();
         return;
       }
-      this.dismiss(this.props.onDismiss);
+      this.dismiss();
     }
   }
 
@@ -83,21 +87,26 @@ class CarouselComponent extends Component {
 
   show(callback?: Function = () => {}): void {
     this.navigator.push({ show: true });
+    this.setState({ show: true });
     callback();
   }
 
   dismiss(callback?: Function = () => {}): void {
     this.navigator.pop();
+    this.setState({ show: false });
     callback();
   }
 
-  didFocus({ show }) {
+  didFocus() {
+    const { show } = this.state;
+
     if (show === null) {
       return;
     }
 
     const callback = show ? this.props.onShow : this.props.onDismiss;
     callback();
+    this.setState({ show: !show });
   }
 
   configureScene() {
