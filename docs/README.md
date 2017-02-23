@@ -14,7 +14,7 @@ PageControl
 ### CarouselComponent
 | Prop | Type | Default | Note |
 |---|---|---|---|
-| `show` | `boolean` | `false` | | |
+| `show` | `boolean` | `null` | | |
 | `onShow` | `Function` | `() => {}` | | |
 | `onDismiss` | `Function` | `() => {}` | | |
 | `style` | `any` | `null` | | |
