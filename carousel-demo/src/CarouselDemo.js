@@ -108,12 +108,18 @@ export default class CarouselDemo extends Component {
         ref={(carousel) => { this.carousel = carousel; }}
         title="Title"
         cards={this.cards}
-        show
+        onShow={() => {
+          console.log('show');
+        }}
+        onDismiss={() => {
+          console.log('dismiss');
+        }}
         leftItem={{
           title: 'CLOSE',
           layout: 'title',
           onPress: this.dismissCarousel,
         }}
+        show
       >
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}
