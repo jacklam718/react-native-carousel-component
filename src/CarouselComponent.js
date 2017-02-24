@@ -42,29 +42,29 @@ class CarouselComponent extends Component {
     super(props);
 
     this.state = {
-      show: null,
+      show: false,
     };
 
     (this: any).renderScene = this.renderScene.bind(this);
     (this: any).show = this.show.bind(this);
     (this: any).dismiss = this.dismiss.bind(this);
-    (this: any).didFocus = this.didFocus.bind(this);
+    (this: any).componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.show) {
+    const { show, dismissOnHardwareBackPress } = this.props;
+
+    if (show) {
       this.show();
     }
 
     if (Platform.OS === 'android') {
-      const { dismissOnHardwareBackPress } = this.props;
-
       BackAndroid.addEventListener(HARDWARE_BACK_PRESS_EVENT, () => {
-        if (dismissOnHardwareBackPress) {
+        if (dismissOnHardwareBackPress && this.state.show) {
           this.dismiss();
-          return false;
+          return true;
         }
-        return true;
+        return false;
       });
     }
   }
@@ -89,24 +89,14 @@ class CarouselComponent extends Component {
     this.navigator.push({ show: true });
     this.setState({ show: true });
     callback();
+    this.props.onShow();
   }
 
   dismiss(callback?: Function = () => {}): void {
     this.navigator.pop();
     this.setState({ show: false });
     callback();
-  }
-
-  didFocus() {
-    const { show } = this.state;
-
-    if (show === null) {
-      return;
-    }
-
-    const callback = show ? this.props.onShow : this.props.onDismiss;
-    callback();
-    this.setState({ show: !show });
+    this.props.onDismiss();
   }
 
   configureScene() {
@@ -135,7 +125,6 @@ class CarouselComponent extends Component {
         initialRoute={{ show: null }}
         configureScene={this.configureScene}
         renderScene={this.renderScene}
-        onDidFocus={this.didFocus}
         style={[styles.navigator, navigatorStyle]}
       />
     );
