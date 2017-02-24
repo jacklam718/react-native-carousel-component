@@ -1,6 +1,9 @@
 ## React Native Carousel Component
 React Native Carousel Component for iOS & Android.
 
+Pull request are welcomed. Please follow the Airbnb style guide [Airbnb JavaScript](https://github.com/airbnb/javascript)
+
+
 [Try it with Exponent](https://exp.host/@jacklam718/carousel-demo)
 
 <img src="https://jacklam718.github.io/react-native-carousel-component/assets/carousel-component.gif" width="250">
