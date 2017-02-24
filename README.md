@@ -1,7 +1,7 @@
 ## React Native Carousel Component
 React Native Carousel Component for iOS & Android.
 
-[Try it with Exponent](https://exp.host/@jacklam718/carousel-example)
+[Try it with Exponent](https://exp.host/@jacklam718/carousel-demo)
 
 <img src="https://jacklam718.github.io/react-native-carousel-component/assets/carousel-component.gif" width="250">
 <br>
