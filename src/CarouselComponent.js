@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Navigator, StyleSheet, BackAndroid, Platform } from 'react-native';
+import { Navigator, StyleSheet, BackAndroid } from 'react-native';
 
 import Carousel from './components/Carousel';
 
@@ -48,25 +48,17 @@ class CarouselComponent extends Component {
     (this: any).renderScene = this.renderScene.bind(this);
     (this: any).show = this.show.bind(this);
     (this: any).dismiss = this.dismiss.bind(this);
-    (this: any).componentDidMount = this.componentDidMount.bind(this);
+    (this: any).hardwareBackPressHandler = this.hardwareBackPressHandler.bind(this);
   }
 
   componentDidMount() {
-    const { show, dismissOnHardwareBackPress } = this.props;
+    const { show } = this.props;
 
     if (show) {
       this.show();
     }
 
-    if (Platform.OS === 'android') {
-      BackAndroid.addEventListener(HARDWARE_BACK_PRESS_EVENT, () => {
-        if (dismissOnHardwareBackPress && this.state.show) {
-          this.dismiss();
-          return true;
-        }
-        return false;
-      });
-    }
+    BackAndroid.addEventListener(HARDWARE_BACK_PRESS_EVENT, this.hardwareBackPressHandler);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,9 +72,18 @@ class CarouselComponent extends Component {
   }
 
   componentWillUnmount() {
-    if (Platform.OS === 'android') {
-      BackAndroid.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
+    BackAndroid.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
+  }
+
+  hardwareBackPressHandler(): boolean {
+    const { dismissOnHardwareBackPress } = this.props;
+
+    if (dismissOnHardwareBackPress && this.state.show) {
+      this.dismiss();
+      return true;
     }
+
+    return false;
   }
 
   show(callback?: Function = () => {}): void {
