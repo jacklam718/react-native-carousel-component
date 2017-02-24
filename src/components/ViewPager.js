@@ -134,7 +134,6 @@ class ViewPager extends Component {
         scrollsToTop={false}
         onScroll={this.handleHorizontalScroll}
         scrollEventThrottle={100}
-        removeClippedSubviews
         automaticallyAdjustContentInsets={false}
         directionalLockEnabled
         showsHorizontalScrollIndicator={false}
