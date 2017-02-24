@@ -119,7 +119,6 @@ export default class CarouselDemo extends Component {
           layout: 'title',
           onPress: this.dismissCarousel,
         }}
-        show
       >
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}
