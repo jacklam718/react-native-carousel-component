@@ -159,8 +159,7 @@ class CarouselComponent extends Component {
     if (!children) {
       containerStyleForNoChildren = styles.containerForNoChildren;
       navigatorForNoChildren = styles.navigatorForNoChildren;
-
-      animatedOverlay = children ? null : (
+      animatedOverlay = (
         <AnimatedOverlay
           overlayShow={this.state.show}
           opacity={1}
