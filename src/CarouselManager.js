@@ -1,4 +1,3 @@
-
 // @flow
 
 import React from 'react';
@@ -53,13 +52,6 @@ class CarouselManager {
   }
 
   update(props: Object, callback?: Function = () => {}): void {
-    // prevent multi calls in a short time
-    if (this.locked) {
-      return;
-    }
-
-    this.lockUntilTimeout();
-
     const newProps = { ...this.props, ...props };
 
     this.currentCarousel.update(
@@ -96,4 +88,4 @@ class CarouselManager {
   }
 }
 
-export default CarouselManager;
+export default new CarouselManager();
