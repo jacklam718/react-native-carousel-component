@@ -139,6 +139,7 @@ class CarouselComponent extends Component {
       return (
         <AnimatedOverlay
           overlayShow={this.state.show}
+          pointerEvents="auto"
           opacity={0.5}
           duration={500}
         />
@@ -151,7 +152,6 @@ class CarouselComponent extends Component {
   render() {
     const { navigatorStyle, children } = this.props;
 
-    let pointerEvents = 'none';
     let containerStyleForNoChildren = null;
     let navigatorForNoChildren = null;
     let animatedOverlay = null;
@@ -170,12 +170,8 @@ class CarouselComponent extends Component {
       );
     }
 
-    if (this.state.show) {
-      pointerEvents = 'auto';
-    }
-
     return (
-      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents={pointerEvents}>
+      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents="auto">
         {animatedOverlay}
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}
