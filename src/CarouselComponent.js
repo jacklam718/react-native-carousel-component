@@ -121,6 +121,7 @@ class CarouselComponent extends Component {
     if (children) {
       return Navigator.SceneConfigs.FloatFromBottom;
     }
+    // NOTE: will disable gestures if no children
     return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: {} };
   }
 
