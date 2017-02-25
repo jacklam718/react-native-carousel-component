@@ -6,10 +6,12 @@ import RootSiblings from 'react-native-root-siblings';
 
 import CarouselComponent from './CarouselComponent';
 
-const DESTRAY_TIMEOUT = 500;
+const DESTRAY_TIMEOUT: number = 500;
+const LOCK_TIMEOUT: number = 500;
 
 class CarouselManager {
   constructor(props?: Object = {}) {
+    this.locked = false;
     this.carousels = [];
 
     this.show = this.show.bind(this);
@@ -27,7 +29,22 @@ class CarouselManager {
     return this.carousels[this.carousels.length - 1];
   }
 
+  lockUntilTimeout() {
+    this.locked = true;
+
+    setTimeout(() => {
+      this.locked = false;
+    }, LOCK_TIMEOUT);
+  }
+
   add(props: Object, callback?: Function = () => {}): void {
+    // prevent multi calls in a short time
+    if (this.locked) {
+      return;
+    }
+
+    this.lockUntilTimeout();
+
     const carousel = new RootSiblings(
       <CarouselComponent {...props} onDismiss={this.dismiss} />,
       callback,
@@ -36,15 +53,23 @@ class CarouselManager {
   }
 
   update(props: Object, callback?: Function = () => {}): void {
+    // prevent multi calls in a short time
+    if (this.locked) {
+      return;
+    }
+
+    this.lockUntilTimeout();
+
+    const newProps = { ...this.props, ...props };
+
     this.currentCarousel.update(
-      <CarouselComponent {...props} />,
+      <CarouselComponent {...newProps} />,
       callback,
     );
   }
 
   show(props?: Object = {}, callback?: Function = () => {}): void {
     const newProps = { ...this.props, ...props, show: true };
-
     this.add(newProps, callback);
   }
 
