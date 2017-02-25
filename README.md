@@ -123,12 +123,6 @@ const options = {
     layout: 'title',
     onPress: this.dismiss,
   },
-  onShow: () => {
-    console.log('carousel show');
-  },
-  onDismiss: () => {
-    console.log('carousel dismiss');
-  },
 };
 
 // show carousel
