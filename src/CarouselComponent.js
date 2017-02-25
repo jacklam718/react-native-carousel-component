@@ -1,13 +1,27 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Navigator, StyleSheet, BackAndroid } from 'react-native';
+import { View, Navigator, StyleSheet, Dimensions, BackAndroid } from 'react-native';
+import AnimatedOverlay from 'react-native-animated-overlay';
 
 import Carousel from './components/Carousel';
 
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  containerForNoChildren: {
+    flex: 1,
+    position: 'absolute',
+    width: WIDTH,
+    height: HEIGHT,
+  },
+  navigatorForNoChildren: {
+    backgroundColor: 'transparent',
+  },
   navigator: {
     flex: 1,
     backgroundColor: 'black',
@@ -21,7 +35,7 @@ type Props = {
   show?: boolean;
   navigatorStyle?: any;
   carouselStyle?: any;
-  children: any;
+  children?: any;
 }
 
 const defaultProps = {
@@ -31,6 +45,7 @@ const defaultProps = {
   navigatorStyle: null,
   carouselStyle: null,
   show: null,
+  children: null,
 };
 
 class CarouselComponent extends Component {
@@ -42,10 +57,11 @@ class CarouselComponent extends Component {
     super(props);
 
     this.state = {
-      show: false,
+      show: null,
     };
 
     (this: any).renderScene = this.renderScene.bind(this);
+    (this: any).configureScene = this.configureScene.bind(this);
     (this: any).show = this.show.bind(this);
     (this: any).dismiss = this.dismiss.bind(this);
     (this: any).hardwareBackPressHandler = this.hardwareBackPressHandler.bind(this);
@@ -100,8 +116,12 @@ class CarouselComponent extends Component {
     this.props.onDismiss();
   }
 
-  configureScene() {
-    return Navigator.SceneConfigs.FloatFromBottom;
+  configureScene(): Object {
+    const { children } = this.props;
+    if (children) {
+      return Navigator.SceneConfigs.FloatFromBottom;
+    }
+    return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: {} };
   }
 
   renderScene(route, navigator) {
@@ -114,20 +134,57 @@ class CarouselComponent extends Component {
         />
       );
     }
+
+    if (!this.props.children) {
+      return (
+        <AnimatedOverlay
+          overlayShow={this.state.show}
+          opacity={0.5}
+          duration={500}
+        />
+      );
+    }
+
     return this.props.children;
   }
 
   render() {
-    const { navigatorStyle } = this.props;
+    const { navigatorStyle, children } = this.props;
+
+    let pointerEvents = 'none';
+    let containerStyleForNoChildren = null;
+    let navigatorForNoChildren = null;
+    let animatedOverlay = null;
+
+    if (!children) {
+      containerStyleForNoChildren = styles.containerForNoChildren;
+      navigatorForNoChildren = styles.navigatorForNoChildren;
+
+      animatedOverlay = children ? null : (
+        <AnimatedOverlay
+          overlayShow={this.state.show}
+          opacity={1}
+          duration={500}
+          pointerEvents="auto"
+        />
+      );
+    }
+
+    if (this.state.show) {
+      pointerEvents = 'auto';
+    }
 
     return (
-      <Navigator
-        ref={(navigator) => { this.navigator = navigator; }}
-        initialRoute={{ show: null }}
-        configureScene={this.configureScene}
-        renderScene={this.renderScene}
-        style={[styles.navigator, navigatorStyle]}
-      />
+      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents={pointerEvents}>
+        {animatedOverlay}
+        <Navigator
+          ref={(navigator) => { this.navigator = navigator; }}
+          initialRoute={{ show: null }}
+          configureScene={this.configureScene}
+          renderScene={this.renderScene}
+          style={[styles.navigator, navigatorForNoChildren, navigatorStyle]}
+        />
+      </View>
     );
   }
 }

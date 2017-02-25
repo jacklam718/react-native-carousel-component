@@ -27,7 +27,8 @@ npm install --save react-native-carousel-component
 [Demo App for Demonstrate How To Use `CarouselComponent` +
 `Navigator` with `Navigator.NavigationBar` ](https://github.com/jacklam718/react-native-carousel-component/blob/master/carousel-demo/src/CarouselDemo.js)
 
-## Usage
+
+## Usage with `CorouselComponent`
 ```javascript
 import CarouselComponent, { CarouselCard } from 'react-native-carousel-component';
 
@@ -91,3 +92,59 @@ this.carousel.dismiss(() => {
     console.log('callback for dismiss method')
 });
 ```
+
+
+## Usage with `CarouselManager`
+##### You can use `CarouselManager` if you don't want put `CarouselComponent` on your veiw or you don't want put your app into `CarouselComponent` for example:
+```javascript
+<CarouselComponent>
+ <App />
+</CarouselComponent>
+```
+
+```javascript
+import { CarouselManager, CarouselCard } from 'react-native-carousel-component';
+
+const options = {
+  title: 'Title',
+  subTitle: 'Sub Title',
+  showPageControl: true,
+  cards: [
+    <CarouselCard
+      key={0}
+      title="Title"
+      description="Description"
+    >
+      // You can put your view here
+    </CarouselCard>  
+  ],
+  leftItem: {
+    title: 'CLOSE',
+    layout: 'title',
+    onPress: this.dismiss,
+  },
+  onShow: () => {
+    console.log('carousel show');
+  },
+  onDismiss: () => {
+    console.log('carousel dismiss');
+  },
+};
+
+// show carousel
+CarouselManager.show(options, () => {
+  console.log('callback - show');
+});
+
+// dismiss carosuel
+CarouselManager.dismiss(() => {
+  console.log('callback - dismiss');
+});
+
+// update carosuel
+CarouselManager.uopdate({ ...options, title: 'Updated Title' }, () => {
+  console.log('callback - update');
+});
+```
+
+##### Note: The `CarouselManager`'s effects and behaviour are little bit different with the `CarouselComponent` because you didn't put you app into the component.
