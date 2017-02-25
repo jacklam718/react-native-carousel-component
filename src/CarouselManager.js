@@ -52,17 +52,17 @@ class CarouselManager {
   }
 
   update(props: Object, callback?: Function = () => {}): void {
-    const newProps = { ...this.props, ...props };
+    this.props = { ...this.props, ...props };
 
     this.currentCarousel.update(
-      <CarouselComponent {...newProps} />,
+      <CarouselComponent {...this.props} />,
       callback,
     );
   }
 
   show(props?: Object = {}, callback?: Function = () => {}): void {
-    const newProps = { ...this.props, ...props, show: true };
-    this.add(newProps, callback);
+    this.props = { ...this.props, ...props, show: true };
+    this.add(this.props, callback);
   }
 
   dismiss(callback?: Function = () => {}): void {
