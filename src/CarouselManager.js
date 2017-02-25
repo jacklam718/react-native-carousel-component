@@ -1,49 +1,72 @@
+
 // @flow
 
 import React from 'react';
 import RootSiblings from 'react-native-root-siblings';
-import CarouselComponentWrapper from './CarouselComponentWrapper';
 
-const DESTRAY_TIMEOUT = 1000;
+import CarouselComponent from './CarouselComponent';
+
+const DESTRAY_TIMEOUT = 500;
 
 class CarouselManager {
   constructor(props?: Object = {}) {
+    this.carousels = [];
+
+    this.show = this.show.bind(this);
     this.dismiss = this.dismiss.bind(this);
+    this.dismissAll = this.dismissAll.bind(this);
+    this.update = this.update.bind(this);
+
     this.props = {
       ...props,
-      onDismiss: this.dismiss,
-      navigatorStyle: { backgroundColor: 'transparent' },
+      show: false,
     };
   }
 
-  create(props: Object, callback?: Function = () => {}): void {
-    this.carousel = new RootSiblings(<CarouselComponentWrapper {...props} />, () => {
-      callback();
-    });
+  get currentCarousel() {
+    return this.carousels[this.carousels.length - 1];
+  }
+
+  add(props: Object, callback?: Function = () => {}): void {
+    const carousel = new RootSiblings(
+      <CarouselComponent {...props} onDismiss={this.dismiss} />,
+      callback,
+    );
+    this.carousels.push(carousel);
   }
 
   update(props: Object, callback?: Function = () => {}): void {
-    this.carousel.update(<CarouselComponentWrapper {...props} />, () => {
-      callback();
-    });
+    this.currentCarousel.update(
+      <CarouselComponent {...props} />,
+      callback,
+    );
   }
 
-  show(callback?: Function = () => {}, props?: Object = this.props): void {
-    const newProps = {
-      ...props,
-      show: true,
-      onDismiss: this.dismiss,
-    };
+  show(props?: Object = {}, callback?: Function = () => {}): void {
+    const newProps = { ...this.props, ...props, show: true };
 
-    this.create(newProps, callback);
+    this.add(newProps, callback);
   }
 
   dismiss(callback?: Function = () => {}): void {
     this.update({ ...this.props, show: false }, () => {
       callback();
+
       setTimeout(() => {
-        this.carousel.destroy();
+        const carousel = this.carousels.pop();
+
+        // FIXME don't know why will call 2 times.
+        // First time is siblings instance second time is null
+        if (carousel) {
+          carousel.destroy();
+        }
       }, DESTRAY_TIMEOUT);
+    });
+  }
+
+  dismissAll(callback?: Function = () => {}): void {
+    this.carousels.forEach(() => {
+      this.dismiss(callback);
     });
   }
 }
