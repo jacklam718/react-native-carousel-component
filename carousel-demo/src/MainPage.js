@@ -22,9 +22,17 @@ export default class MainPage extends Component {
         <View>
           <Button
             onPress={this.props.showCarousel}
-            text="Show Carousel Here ( Full Screen )"
+            text="Show Carousel Here ( CarouselComponent Full Screen )"
           />
         </View>
+
+        <View style={{ marginTop: 20 }}>
+          <Button
+            onPress={this.props.showCarouselManager}
+            text="Show Carousel Here ( CarouselManager - Full Screen )"
+          />
+        </View>
+
         <View style={{ marginTop: 20 }}>
           <Button
             onPress={this.toCarouselPage}
