@@ -121,7 +121,6 @@ class CarouselComponent extends Component {
     if (children) {
       return Navigator.SceneConfigs.FloatFromBottom;
     }
-    // NOTE: will disable gestures if no children
     return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: {} };
   }
 
@@ -152,18 +151,31 @@ class CarouselComponent extends Component {
   render() {
     const { navigatorStyle, children } = this.props;
 
-    const containerStyleForNoChildren = children ? null : styles.containerForNoChildren;
-    const navigatorForNoChildren = children ? null : styles.navigatorForNoChildren;
-    const animatedOverlay = children ? null : (
-      <AnimatedOverlay
-        overlayShow={this.state.show}
-        opacity={1}
-        duration={500}
-      />
-    );
+    let pointerEvents = 'none';
+    let containerStyleForNoChildren = null;
+    let navigatorForNoChildren = null;
+    let animatedOverlay = null;
+
+    if (!children) {
+      containerStyleForNoChildren = styles.containerForNoChildren;
+      navigatorForNoChildren = styles.navigatorForNoChildren;
+
+      animatedOverlay = children ? null : (
+        <AnimatedOverlay
+          overlayShow={this.state.show}
+          opacity={1}
+          duration={500}
+          pointerEvents="auto"
+        />
+      );
+    }
+
+    if (this.state.show) {
+      pointerEvents = 'auto';
+    }
 
     return (
-      <View style={[styles.container, containerStyleForNoChildren]}>
+      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents={pointerEvents}>
         {animatedOverlay}
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}
