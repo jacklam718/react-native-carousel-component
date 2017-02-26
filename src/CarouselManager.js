@@ -5,7 +5,7 @@ import RootSiblings from 'react-native-root-siblings';
 
 import CarouselComponent from './CarouselComponent';
 
-const DESTRAY_TIMEOUT: number = 500;
+const DESTROY_TIMEOUT: number = 500;
 const LOCK_TIMEOUT: number = 500;
 
 class CarouselManager {
@@ -77,7 +77,7 @@ class CarouselManager {
         if (carousel) {
           carousel.destroy();
         }
-      }, DESTRAY_TIMEOUT);
+      }, DESTROY_TIMEOUT);
     });
   }
 
