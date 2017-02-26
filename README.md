@@ -136,7 +136,7 @@ CarouselManager.dismiss(() => {
 });
 
 // dismiss all carosuels
-CarouselManager.dismiss(() => {
+CarouselManager.dismissAll(() => {
   console.log('callback - dismiss all');
 });
 
