@@ -135,6 +135,11 @@ CarouselManager.dismiss(() => {
   console.log('callback - dismiss');
 });
 
+// dismiss all carosuels
+CarouselManager.dismiss(() => {
+  console.log('callback - dismiss all');
+});
+
 // update carosuel
 CarouselManager.uopdate({ ...options, title: 'Updated Title' }, () => {
   console.log('callback - update');
