@@ -1,6 +1,7 @@
 // @flow
 
-import React, { type ReactElement } from 'react';
+import React from 'react';
+import type { ReactElement } from 'react';
 import { Animated, StyleSheet, PixelRatio } from 'react-native';
 
 const styles = StyleSheet.create({

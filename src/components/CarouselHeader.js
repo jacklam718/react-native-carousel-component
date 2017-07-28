@@ -215,8 +215,13 @@ class HeaderIOS extends Component {
 
 class ItemWrapperIOS extends Component {
   props: {
-    item: Item;
-    color: string;
+    item?: Item;
+    color?: string;
+  };
+
+  static defaultProps = {
+    item: null,
+    color: null,
   };
 
   render() {

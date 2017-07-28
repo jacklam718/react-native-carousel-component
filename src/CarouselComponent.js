@@ -1,11 +1,18 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Navigator, StyleSheet, Dimensions, BackAndroid } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  BackAndroid as RNBackAndroid,
+  BackHandler as RNBackHandler,
+} from 'react-native';
+import { Navigator } from 'react-native-deprecated-custom-components'
 import AnimatedOverlay from 'react-native-animated-overlay';
-
 import Carousel from './components/Carousel';
 
+const BackHandler = RNBackHandler || RNBackAndroid
 const HARDWARE_BACK_PRESS_EVENT: string = 'hardwareBackPress';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
@@ -59,12 +66,6 @@ class CarouselComponent extends Component {
     this.state = {
       show: null,
     };
-
-    (this: any).renderScene = this.renderScene.bind(this);
-    (this: any).configureScene = this.configureScene.bind(this);
-    (this: any).show = this.show.bind(this);
-    (this: any).dismiss = this.dismiss.bind(this);
-    (this: any).hardwareBackPressHandler = this.hardwareBackPressHandler.bind(this);
   }
 
   componentDidMount() {
@@ -74,7 +75,7 @@ class CarouselComponent extends Component {
       this.show();
     }
 
-    BackAndroid.addEventListener(HARDWARE_BACK_PRESS_EVENT, this.hardwareBackPressHandler);
+    BackHandler.addEventListener(HARDWARE_BACK_PRESS_EVENT, this.hardwareBackPressHandler);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,10 +89,10 @@ class CarouselComponent extends Component {
   }
 
   componentWillUnmount() {
-    BackAndroid.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
+    BackHandler.removeEventListener(HARDWARE_BACK_PRESS_EVENT);
   }
 
-  hardwareBackPressHandler(): boolean {
+  hardwareBackPressHandler = (): boolean => {
     const { dismissOnHardwareBackPress } = this.props;
 
     if (dismissOnHardwareBackPress && this.state.show) {
@@ -102,21 +103,21 @@ class CarouselComponent extends Component {
     return false;
   }
 
-  show(callback?: Function = () => {}): void {
+  show = (callback?: Function = () => {}): void => {
     this.navigator.push({ show: true });
     this.setState({ show: true });
     callback();
     this.props.onShow();
   }
 
-  dismiss(callback?: Function = () => {}): void {
+  dismiss = (callback?: Function = () => {}): void => {
     this.navigator.pop();
     this.setState({ show: false });
     callback();
     this.props.onDismiss();
   }
 
-  configureScene(): Object {
+  configureScene = (): Object => {
     const { children } = this.props;
     if (children) {
       return Navigator.SceneConfigs.FloatFromBottom;
@@ -124,7 +125,7 @@ class CarouselComponent extends Component {
     return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: {} };
   }
 
-  renderScene(route, navigator) {
+  renderScene = (route, navigator) => {
     if (route.show) {
       return (
         <Carousel
@@ -135,49 +136,20 @@ class CarouselComponent extends Component {
       );
     }
 
-    if (!this.props.children) {
-      return (
-        <AnimatedOverlay
-          overlayShow={this.state.show}
-          pointerEvents="auto"
-          opacity={0.5}
-          duration={500}
-        />
-      );
-    }
-
     return this.props.children;
   }
 
   render() {
     const { navigatorStyle, children } = this.props;
 
-    let containerStyleForNoChildren = null;
-    let navigatorForNoChildren = null;
-    let animatedOverlay = null;
-
-    if (!children) {
-      containerStyleForNoChildren = styles.containerForNoChildren;
-      navigatorForNoChildren = styles.navigatorForNoChildren;
-      animatedOverlay = (
-        <AnimatedOverlay
-          overlayShow={this.state.show}
-          opacity={1}
-          duration={500}
-          pointerEvents="auto"
-        />
-      );
-    }
-
     return (
-      <View style={[styles.container, containerStyleForNoChildren]} pointerEvents="auto">
-        {animatedOverlay}
+      <View style={[styles.container]} pointerEvents="auto">
         <Navigator
           ref={(navigator) => { this.navigator = navigator; }}
           initialRoute={{ show: null }}
           configureScene={this.configureScene}
           renderScene={this.renderScene}
-          style={[styles.navigator, navigatorForNoChildren, navigatorStyle]}
+          style={[styles.navigator, navigatorStyle]}
         />
       </View>
     );

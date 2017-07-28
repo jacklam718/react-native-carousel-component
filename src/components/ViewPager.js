@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component, type ReactElement } from 'react';
+import React, { Component } from 'react';
+import type { ReactElement } from 'react';
 import {
   View,
   StyleSheet,
