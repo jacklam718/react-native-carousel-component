@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Button } from 'react-native';
 import CarouselComponent, { CarouselCard } from 'react-native-carousel-component';
-import Button from './components/Button';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +43,7 @@ export default class CarouselPage extends Component {
           actions={[
             <Button
               key={0}
-              text="Dismiss"
+              title="Dismiss"
               onPress={this.dismiss}
             />,
           ]}
@@ -67,7 +66,7 @@ export default class CarouselPage extends Component {
       >
         <View style={styles.container}>
           <Button
-            text="Open"
+            title="Open"
             onPress={this.show}
           />
         </View>

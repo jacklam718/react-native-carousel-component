@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Navigator } from 'react-native';
-import Button from './components/Button';
+import { View, StyleSheet, Button } from 'react-native';
+import { Navigator } from 'react-native-deprecated-custom-components';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,21 +22,14 @@ export default class MainPage extends Component {
         <View>
           <Button
             onPress={this.props.showCarousel}
-            text="Show Carousel Here ( CarouselComponent Full Screen )"
-          />
-        </View>
-
-        <View style={{ marginTop: 20 }}>
-          <Button
-            onPress={this.props.showCarouselManager}
-            text="Show Carousel Here ( CarouselManager - Full Screen )"
+            title="Show Carousel Here ( CarouselComponent Full Screen )"
           />
         </View>
 
         <View style={{ marginTop: 20 }}>
           <Button
             onPress={this.toCarouselPage}
-            text="Go To Carousel Page"
+            title="Go To Carousel Page"
           />
         </View>
       </View>
