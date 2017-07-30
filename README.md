@@ -12,6 +12,11 @@ Pull request are welcomed. Please follow the Airbnb style guide [Airbnb JavaScri
 <img src="https://jacklam718.github.io/react-native-carousel-component/assets/carousel-screenshot.png" width="250">
 
 ## Installation
+
+`react-native <= 0.4.3 install 'react-native-carousel-component: ^0.1.17'`
+<br>
+`react-native >= 0.4.4 install 'react-native-carousel-component: ^0.2.17'`
+
 ```bash
 yarn add react-native-carousel-component
 # OR
