@@ -1,4 +1,3 @@
-import CarouselManager from './CarouselManager';
 import CarouselComponent from './CarouselComponent';
 import Carousel from './components/Carousel';
 import CarouselCard from './components/CarouselCard';
@@ -14,7 +13,6 @@ export {
   CarouselMiniHeader,
   ViewPager,
   PageControl,
-  CarouselManager,
 };
 
 export default CarouselComponent;

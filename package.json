@@ -26,7 +26,6 @@
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react-native": "^2.1.0",
     "react-native-animated-overlay": "^0.0.10",
-    "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-root-siblings": "^1.2.1"
   }
 }

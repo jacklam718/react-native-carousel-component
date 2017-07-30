@@ -5,10 +5,10 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  Navigator,
   BackAndroid as RNBackAndroid,
   BackHandler as RNBackHandler,
 } from 'react-native';
-import { Navigator } from 'react-native-deprecated-custom-components'
 import AnimatedOverlay from 'react-native-animated-overlay';
 import Carousel from './components/Carousel';
 
