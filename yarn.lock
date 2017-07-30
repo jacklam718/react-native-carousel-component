@@ -1003,7 +1003,7 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-fbjs@^0.8.9:
+fbjs@^0.8.9, fbjs@~0.8.9:
   version "0.8.14"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.14.tgz#d1dbe2be254c35a91e09f31f9cd50a40b2a0ed1c"
   dependencies:
@@ -1156,6 +1156,10 @@ iconv-lite@^0.4.17, iconv-lite@~0.4.13:
 ignore@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.3.tgz#432352e57accd87ab3110e82d3fea0e47812156d"
+
+immutable@~3.7.6:
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -1585,6 +1589,16 @@ react-native-animated-overlay@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/react-native-animated-overlay/-/react-native-animated-overlay-0.0.10.tgz#7dd4a7615605970b7057c7ccabe45c2b83d36da6"
 
+react-native-deprecated-custom-components@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-deprecated-custom-components/-/react-native-deprecated-custom-components-0.1.1.tgz#bb911f01bf2f47f0a91764757bf918f3216e94e9"
+  dependencies:
+    fbjs "~0.8.9"
+    immutable "~3.7.6"
+    prop-types "^15.5.10"
+    react-timer-mixin "^0.13.2"
+    rebound "^0.0.13"
+
 react-native-root-siblings@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-root-siblings/-/react-native-root-siblings-1.2.1.tgz#6f8d0e711dbf9aef4e57e73aea751372b5aefcff"
@@ -1597,6 +1611,10 @@ react-proxy@^1.1.7:
   dependencies:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
+
+react-timer-mixin@^0.13.2:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
 
 react-transform-hmr@^1.0.4:
   version "1.0.4"
@@ -1631,6 +1649,10 @@ readable-stream@^2.2.2:
     process-nextick-args "~1.0.6"
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
+
+rebound@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/rebound/-/rebound-0.0.13.tgz#4a225254caf7da756797b19c5817bf7a7941fac1"
 
 regenerator-runtime@^0.10.0:
   version "0.10.3"
